@@ -34,6 +34,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.1;text-wrap:ba
 .jump{display:inline-block;margin-top:26px;padding:12px 22px;background:#f1d38f;color:#4a0c14;font-weight:700;text-decoration:none;border-radius:4px}
 .jump:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
 section{padding-block:64px}
+#schedule{scroll-margin-top:8px}
 .story .wrap{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:48px;align-items:start}
 .saint{border:1px solid var(--line);padding:10px;background:var(--surface)}
 .saint img{display:block;width:100%}
@@ -136,5 +137,15 @@ footer a{color:var(--crimson);font-weight:700}
 
 <footer><div class="wrap">The Emmanuel Community is an international Catholic community recognized by the Holy See as a public association of the faithful. More at <a href="https://emmanuelcommunity.com">emmanuelcommunity.com</a>.</div></footer>
 
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var b=document.querySelector('a.jump'),t=document.getElementById('schedule');
+  if(!b||!t)return;
+  b.addEventListener('click',function(e){
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
 </body>
 </html>
