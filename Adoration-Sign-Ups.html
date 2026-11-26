@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eucharistic Adoration Sign-Up – December 7–11</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf6ee; --card:#ffffff; --ink:#2b2220; --muted:#7a6d66; --line:#e6dccb;
+    --wine:#7b2d3b; --wine-d:#5e1f2c; --gold:#b8893a; --gold-l:#f3e7cc; --ok:#2f6b4f; --full:#d9d0c3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.45}
+  header{text-align:center;padding:36px 20px 20px;background:linear-gradient(#f3e7cc,#faf6ee)}
+  .cross{width:34px;height:34px;color:var(--gold)}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:2.4rem;margin:6px 0 4px;color:var(--wine-d);font-weight:700}
+  header p{margin:0;color:var(--muted)}
+  main{max-width:1000px;margin:0 auto;padding:20px;display:grid;grid-template-columns:320px 1fr;gap:24px}
+  @media(max-width:800px){main{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;box-shadow:0 1px 3px rgba(60,40,20,.05)}
+  h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.5rem;margin:0 0 12px;color:var(--wine-d)}
+  .cal-head{text-align:center;font-weight:600;margin-bottom:8px}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+  .cal .dow{font-size:.72rem;color:var(--muted);padding:4px 0}
+  .cal .day{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:.9rem;color:#b9aea5;border:1px solid transparent;background:none;font-family:inherit}
+  .cal .day.on{color:var(--ink);background:var(--gold-l);border-color:var(--gold);cursor:pointer;font-weight:600}
+  .cal .day.on:hover{background:#ecdcb2}
+  .cal .day.sel{background:var(--wine);color:#fff;border-color:var(--wine-d)}
+  .cal .day small{font-size:.62rem;font-weight:500;opacity:.85}
+  .legend{font-size:.78rem;color:var(--muted);margin-top:10px}
+  label{display:block;font-weight:600;font-size:.88rem;margin:14px 0 6px}
+  input[type=text]{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fffdf9}
+  input[type=text]:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+  .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+  .slot{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#fffdf9;text-align:left;font:inherit;cursor:pointer;color:var(--ink)}
+  .slot:hover:not(.full){border-color:var(--gold)}
+  .slot .t{font-weight:600}
+  .slot .who{font-size:.8rem;color:var(--muted);min-height:1.2em;margin-top:2px}
+  .slot .who b{color:var(--ink);font-weight:500}
+  .slot.picked{background:var(--wine);color:#fff;border-color:var(--wine-d)}
+  .slot.picked .who,.slot.picked .who b{color:#f1d9de}
+  .slot.full{background:var(--full);cursor:not-allowed;opacity:.8}
+  .slot .badge{float:right;font-size:.7rem;padding:2px 7px;border-radius:99px;background:var(--gold-l);color:#7a5a1d}
+  .slot.picked .badge{background:rgba(255,255,255,.2);color:#fff}
+  .slot.full .badge{background:#bfb4a5;color:#fff}
+  button.primary{background:var(--wine);color:#fff;border:0;border-radius:10px;padding:12px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:14px;width:100%}
+  button.primary:hover{background:var(--wine-d)}
+  button.primary:disabled{opacity:.45;cursor:not-allowed}
+  .msg{margin-top:12px;font-size:.9rem;padding:10px 12px;border-radius:10px;display:none}
+  .msg.ok{display:block;background:#e6f2ea;color:var(--ok)}
+  .msg.err{display:block;background:#fbe9e9;color:#a02c2c}
+  .msg.info{display:block;background:var(--gold-l);color:#6b4d14}
+  .picked-list{font-size:.85rem;color:var(--muted);margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+  th{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .link{background:none;border:0;color:var(--wine);cursor:pointer;font:inherit;text-decoration:underline;padding:0}
+  .empty{color:var(--muted);font-size:.9rem}
+  .full-width{grid-column:1/-1}
+  .banner{max-width:1000px;margin:16px auto 0;padding:12px 16px;background:#fbe9e9;color:#a02c2c;border-radius:10px;display:none}
+  footer{text-align:center;color:var(--muted);font-size:.8rem;padding:10px 20px 40px}
+</style>
+</head>
+<body>
+<header>
+  <svg class="cross" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10.5 2h3v6.5H20v3h-6.5V22h-3V11.5H4v-3h6.5z"/></svg>
+  <h1>Eucharistic Adoration Sign-Up</h1>
+  <p>Monday, December 7 – Friday, December 11, 2026</p>
+</header>
+<div class="banner" id="setup">Setup needed: paste your Google Apps Script web app URL into <code>SCRIPT_URL</code> near the top of this file's script.</div>
+
+<main>
+  <aside>
+    <div class="card">
+      <h2>Choose a day</h2>
+      <div class="cal-head">December 2026</div>
+      <div class="cal" id="cal"></div>
+      <div class="legend">Highlighted days are open for adoration. Numbers show hours signed up.</div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Your details</h2>
+      <label for="name" style="margin-top:0">Your name</label>
+      <input type="text" id="name" maxlength="60" placeholder="First and last name" autocomplete="name">
+      <div class="picked-list" id="pickedList">No hours selected yet.</div>
+      <button class="primary" id="submit" disabled>Sign up for selected hours</button>
+      <div class="msg" id="msg" role="status"></div>
+    </div>
+  </aside>
+
+  <section>
+    <div class="card">
+      <h2 id="dayTitle">Select a day</h2>
+      <div class="legend" style="margin:-6px 0 12px">Tap one or more hours, enter your name, then sign up. Each hour holds up to <span id="capTxt"></span> adorers.</div>
+      <div class="slots" id="slots"></div>
+    </div>
+  </section>
+
+  <section class="full-width">
+    <div class="card">
+      <h2>Your sign-ups on this device</h2>
+      <div id="mine" class="empty">Loading…</div>
+    </div>
+  </section>
+</main>
+<footer>May we watch one hour with Him.</footer>
+
+<script>
+(function(){
+  // ---- Settings (edit here) ----
+  var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxCAGGxGw4zRf-mzD5azW0jyxPTIMck_v44Zl3LEjmIaR3tPYJDtdr1cV0xzBeZU9prwA/exec';   // from Google Apps Script > Deploy > Web app
+  var DAYS = ['2026-12-07','2026-12-08','2026-12-09','2026-12-10','2026-12-11'];
+  var FIRST_HOUR = 7;   // 7 AM
+  var LAST_HOUR  = 20;  // last slot starts 8 PM (ends 9 PM)
+  var CAP = 2;          // adorers per hour (must match the Apps Script)
+  var REFRESH_MS = 20000;
+
+  var MONTH_START_DOW = 2; // Dec 1, 2026 is a Tuesday (Sun=0)
+  var MONTH_DAYS = 31;
+  var DOW = ['S','M','T','W','T','F','S'];
+  var DAY_NAMES = {'2026-12-07':'Monday, December 7','2026-12-08':'Tuesday, December 8','2026-12-09':'Wednesday, December 9','2026-12-10':'Thursday, December 10','2026-12-11':'Friday, December 11'};
+
+  var $ = function(id){return document.getElementById(id)};
+  var signups = [], selDay = DAYS[0], picked = {}, loaded = false, busy = false;
+  var configured = SCRIPT_URL.indexOf('http') === 0;
+
+  $('capTxt').textContent = CAP;
+
+  // Tokens for cancelling your own sign-ups (kept in this browser only)
+  function getMine(){ try { return JSON.parse(localStorage.getItem('adoration_mine')||'{}'); } catch(e){ return {}; } }
+  function saveMine(m){ try { localStorage.setItem('adoration_mine', JSON.stringify(m)); } catch(e){} }
+
+  function hourLabel(h){ var ap = h>=12?'PM':'AM', hh = h%12||12; return hh+':00 '+ap; }
+  function rangeLabel(h){ return hourLabel(h)+' – '+hourLabel(h+1); }
+  function slotsFor(date,h){ return signups.filter(function(s){return s.date===date && s.hour===h}); }
+  function el(tag, cls, text){ var e=document.createElement(tag); if(cls) e.className=cls; if(text!=null) e.textContent=text; return e; }
+  function say(kind, text){ var m=$('msg'); m.className='msg '+kind; m.textContent=text; }
+
+  function renderCal(){
+    var c = $('cal'); c.textContent='';
+    DOW.forEach(function(d){ c.appendChild(el('div','dow',d)); });
+    for(var i=0;i<MONTH_START_DOW;i++) c.appendChild(el('div'));
+    for(var d=1; d<=MONTH_DAYS; d++){
+      var date = '2026-12-'+(d<10?'0'+d:d);
+      var on = DAYS.indexOf(date) > -1;
+      var b = el(on?'button':'div','day'+(on?' on':'')+(date===selDay?' sel':''));
+      b.appendChild(document.createTextNode(String(d)));
+      if(on){
+        var filled=0; for(var h=FIRST_HOUR;h<=LAST_HOUR;h++){ if(slotsFor(date,h).length) filled++; }
+        b.appendChild(el('small',null,filled+'/'+(LAST_HOUR-FIRST_HOUR+1)));
+        b.type='button';
+        (function(dt){ b.addEventListener('click',function(){ selDay=dt; render(); }); })(date);
+      }
+      c.appendChild(b);
+    }
+  }
+
+  function renderSlots(){
+    $('dayTitle').textContent = DAY_NAMES[selDay] || selDay;
+    var wrap = $('slots'); wrap.textContent='';
+    for(var h=FIRST_HOUR; h<=LAST_HOUR; h++){
+      var list = slotsFor(selDay,h), key = selDay+'|'+h;
+      var isFull = list.length >= CAP, isPicked = !!picked[key];
+      var b = el('button','slot'+(isFull?' full':'')+(isPicked?' picked':''));
+      b.type='button';
+      var t = el('div','t', rangeLabel(h));
+      t.appendChild(el('span','badge', isFull?'Full':(list.length+'/'+CAP)));
+      b.appendChild(t);
+      var who = el('div','who');
+      if(list.length){ list.forEach(function(s,i){ if(i) who.appendChild(document.createTextNode(', ')); who.appendChild(el('b',null,s.name)); }); }
+      else who.textContent = 'Open';
+      b.appendChild(who);
+      if(!isFull){ (function(k){ b.addEventListener('click',function(){ if(picked[k]) delete picked[k]; else picked[k]=true; render(); }); })(key); }
+      wrap.appendChild(b);
+    }
+  }
+
+  function renderPicked(){
+    var keys = Object.keys(picked).sort(), box = $('pickedList');
+    box.textContent = keys.length ? keys.map(function(k){ var p=k.split('|'); return (DAY_NAMES[p[0]]||p[0]).split(',')[0].slice(0,3)+' '+(+p[0].slice(-2))+' · '+hourLabel(+p[1]); }).join('   |   ') : 'No hours selected yet.';
+    $('submit').disabled = !keys.length || !configured || busy;
+  }
+
+  function renderMine(){
+    var box = $('mine'); box.textContent='';
+    if(!loaded){ box.className='empty'; box.textContent = configured ? 'Loading…' : 'Not connected yet.'; return; }
+    var tokens = getMine();
+    var mine = signups.filter(function(s){ return tokens[s.id]; })
+      .sort(function(a,b){ return a.date<b.date?-1:a.date>b.date?1:a.hour-b.hour; });
+    if(!mine.length){ box.className='empty'; box.textContent='You have not signed up for any hours on this device yet.'; return; }
+    box.className='';
+    var tbl = el('table'), head = el('tr');
+    ['Day','Hour','Name',''].forEach(function(x){ head.appendChild(el('th',null,x)); });
+    tbl.appendChild(head);
+    mine.forEach(function(s){
+      var tr = el('tr');
+      tr.appendChild(el('td',null,DAY_NAMES[s.date]||s.date));
+      tr.appendChild(el('td',null,rangeLabel(s.hour)));
+      tr.appendChild(el('td',null,s.name));
+      var td = el('td'), btn = el('button','link','Cancel'); btn.type='button';
+      btn.addEventListener('click',function(){
+        btn.disabled=true;
+        post({action:'cancel', id:s.id, token:tokens[s.id]}).then(function(r){
+          if(r.ok){ var m=getMine(); delete m[s.id]; saveMine(m); say('info','Cancelled '+rangeLabel(s.hour)+' on '+(DAY_NAMES[s.date]||s.date)+'.'); }
+          else say('err','Could not cancel that hour.');
+          return refresh();
+        }).catch(function(){ btn.disabled=false; say('err','Could not reach the sign-up sheet. Please try again.'); });
+      });
+      td.appendChild(btn); tr.appendChild(td); tbl.appendChild(tr);
+    });
+    box.appendChild(tbl);
+  }
+
+  function render(){ renderCal(); renderSlots(); renderPicked(); renderMine(); }
+
+  // ---- Network ----
+  function post(body){
+    return fetch(SCRIPT_URL, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body) })
+      .then(function(r){ return r.json(); });
+  }
+  function refresh(){
+    if(!configured) return Promise.resolve();
+    return fetch(SCRIPT_URL+'?t='+Date.now()).then(function(r){ return r.json(); }).then(function(d){
+      if(d && d.ok){
+        signups = (d.signups||[]).map(function(s){ return {id:String(s.id), date:String(s.date), hour:Number(s.hour), name:String(s.name)}; });
+        loaded = true;
+      }
+      render();
+    }).catch(function(){
+      if(!loaded){ $('mine').className='empty'; $('mine').textContent='Could not load sign-ups. Check your connection and reload.'; }
+    });
+  }
+
+  $('submit').addEventListener('click', function(){
+    var name = $('name').value.trim();
+    if(!name){ say('err','Please enter your name first.'); $('name').focus(); return; }
+    var slots = Object.keys(picked).map(function(k){ var p=k.split('|'); return {date:p[0], hour:+p[1]}; });
+    busy = true; render(); say('info','Saving…');
+    post({action:'add', name:name, slots:slots}).then(function(r){
+      busy = false;
+      if(!r.ok){ say('err', 'Could not save: '+(r.error||'unknown error')); return refresh(); }
+      var m = getMine(), ok=0, skipped=0;
+      r.results.forEach(function(x){ if(x.status==='ok'){ ok++; m[x.id]=x.token; } else skipped++; });
+      saveMine(m); picked = {};
+      if(ok) say('ok','Thank you, '+name+'! You are signed up for '+ok+' hour'+(ok>1?'s':'')+'.'+(skipped?' ('+skipped+' just filled up or were already yours and were skipped.)':''));
+      else say('err','Those hours were just filled or already signed up. Please choose others.');
+      return refresh();
+    }).catch(function(){ busy=false; say('err','Could not reach the sign-up sheet. Please try again.'); render(); });
+  });
+
+  if(!configured) $('setup').style.display='block';
+  render();
+  refresh();
+  setInterval(function(){ if(!busy) refresh(); }, REFRESH_MS);
+})();
+</script>
+</body>
+</html>
